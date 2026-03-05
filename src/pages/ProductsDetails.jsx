@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import useAxios from '../hooks/useAxios';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router";
+import useAxios from "../hooks/useAxios";
+import { AuthContext } from "../contexts/AuthContext";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axios = useAxios();
-
+  const { user } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
-  const [mainImg, setMainImg] = useState('');
+  const [mainImg, setMainImg] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +21,7 @@ const ProductsDetails = () => {
       try {
         const res = await axios.get(`/api/products`);
         const allProducts = res.data || [];
-        const found = allProducts.find(p => String(p._id) === String(id));
+        const found = allProducts.find((p) => String(p._id) === String(id));
         if (isMounted) {
           if (found) {
             setProduct(found);
@@ -35,28 +36,69 @@ const ProductsDetails = () => {
     };
 
     fetchProduct();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
-  if (loading) return (
-    <div className="h-screen flex items-center justify-center font-bold text-xl animate-pulse">
-      Loading Seoul Mirage...
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="h-screen flex items-center justify-center font-bold text-xl animate-pulse">
+        Loading Seoul Mirage...
+      </div>
+    );
 
-  if (!product) return (
-    <div className="h-screen flex flex-col items-center justify-center gap-4 text-center">
-      <p className="text-2xl font-bold text-gray-400 italic">Product not found!</p>
-      <button onClick={() => navigate('/')} className="px-6 py-2 bg-black text-white rounded-sm hover:bg-gray-800 transition-all">
-        Back to Home
-      </button>
-    </div>
-  );
+  if (!product)
+    return (
+      <div className="h-screen flex flex-col items-center justify-center gap-4 text-center">
+        <p className="text-2xl font-bold text-gray-400 italic">
+          Product not found!
+        </p>
+        <button
+          onClick={() => navigate("/")}
+          className="px-6 py-2 bg-black text-white rounded-sm hover:bg-gray-800 transition-all"
+        >
+          Back to Home
+        </button>
+      </div>
+    );
 
+
+  const handleDirectCheckout = async () => {
+    if (!user) {
+      alert("Please login first to place an order!");
+      navigate("/login");
+      return;
+    }
+    const orderData = {
+      userEmail: user.email,
+      shippingAddress: "Default Address (Please update in profile)",
+      items: [
+        {
+          productId: product._id,
+          name: product.name,
+          quantity: quantity,
+          price: product.price,
+          image: product.mainImage,
+        },
+      ],
+      totalAmount: product.price * quantity,
+    };
+
+    try {
+      const res = await axios.post("/api/orders/checkout", orderData);
+      if (res.status === 201) {
+        alert(`✅ ${res.data.message}`);
+        // navigate("/orders");
+      }
+    } catch (error) {
+      console.error("Order error:", error);
+      alert(error.response?.data?.message || "Order failed! Try again.");
+    }
+  };
   return (
     <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 py-16 lg:py-20 animate-in fade-in duration-700">
       <div className="flex flex-col lg:flex-row gap-10 lg:gap-20 items-start">
-
         {/* LEFT: Image Gallery */}
         <div className="flex flex-col lg:flex-row gap-5 w-full lg:w-[55%]">
           <div className="flex flex-row lg:flex-col gap-3 lg:gap-3 w-full lg:w-auto overflow-x-auto lg:overflow-visible">
@@ -65,34 +107,56 @@ const ProductsDetails = () => {
                 key={idx}
                 onClick={() => setMainImg(img)}
                 className={`flex-shrink-0 w-20 h-28 border rounded-sm overflow-hidden cursor-pointer transition-all duration-300 ${
-                  mainImg === img ? 'border-black ring-1 ring-black' : 'border-gray-200 opacity-60 hover:opacity-100'
+                  mainImg === img
+                    ? "border-black ring-1 ring-black"
+                    : "border-gray-200 opacity-60 hover:opacity-100"
                 }`}
               >
-                <img src={img} className="w-full h-full object-cover" alt="thumb" />
+                <img
+                  src={img}
+                  className="w-full h-full object-cover"
+                  alt="thumb"
+                />
               </div>
             ))}
           </div>
           <div className="flex-1 bg-[#F9F9F9] rounded-sm overflow-hidden aspect-[4/5] relative group border border-gray-100">
-            <img src={mainImg} className="w-full h-full object-cover shadow-sm transition-transform duration-700 hover:scale-105" alt="main" />
+            <img
+              src={mainImg}
+              className="w-full h-full object-cover shadow-sm transition-transform duration-700 hover:scale-105"
+              alt="main"
+            />
           </div>
         </div>
 
         {/* RIGHT: Product Info */}
         <div className="w-full lg:w-[45%] flex flex-col">
-          <p className="text-sm text-gray-500 uppercase tracking-widest mb-2">{product.category}</p>
-          <h1 className="text-2xl sm:text-3xl md:text-[34px] font-bold text-[#111] leading-tight mb-2 tracking-tight">{product.name}</h1>
+          <p className="text-sm text-gray-500 uppercase tracking-widest mb-2">
+            {product.category}
+          </p>
+          <h1 className="text-2xl sm:text-3xl md:text-[34px] font-bold text-[#111] leading-tight mb-2 tracking-tight">
+            {product.name}
+          </h1>
 
           <div className="flex items-center gap-2 mb-8">
             <div className="text-black text-sm">★★★★★</div>
-            <span className="text-gray-500 text-[13px] font-medium">{product.reviews_count || 157} Reviews</span>
+            <span className="text-gray-500 text-[13px] font-medium">
+              {product.reviews_count || 157} Reviews
+            </span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 mb-10 border-b border-gray-100 pb-4 sm:pb-8">
-            <span className="text-3xl sm:text-[48px] font-bold text-[#111] leading-none">${product.price}</span>
+            <span className="text-3xl sm:text-[48px] font-bold text-[#111] leading-none">
+              ${product.price}
+            </span>
             {product.oldPrice && (
-              <span className="text-lg sm:text-[24px] text-gray-300 line-through mb-1 font-medium">${product.oldPrice}</span>
+              <span className="text-lg sm:text-[24px] text-gray-300 line-through mb-1 font-medium">
+                ${product.oldPrice}
+              </span>
             )}
-            <span className="text-blue-600 font-bold text-xs sm:text-sm mb-1 sm:mb-2 uppercase tracking-tighter">◆ Limited Time Offer</span>
+            <span className="text-blue-600 font-bold text-xs sm:text-sm mb-1 sm:mb-2 uppercase tracking-tighter">
+              ◆ Limited Time Offer
+            </span>
           </div>
 
           <div className="space-y-8">
@@ -105,11 +169,17 @@ const ProductsDetails = () => {
 
             <div className="space-y-6 text-[14px]">
               <div>
-                <h5 className="font-black text-[12px] uppercase tracking-widest mb-2 text-gray-900">STRAIGHT UP:</h5>
-                <p className="text-gray-600 leading-relaxed">{product.details || "Clean, vegan, and cruelty-free formula."}</p>
+                <h5 className="font-black text-[12px] uppercase tracking-widest mb-2 text-gray-900">
+                  STRAIGHT UP:
+                </h5>
+                <p className="text-gray-600 leading-relaxed">
+                  {product.details || "Clean, vegan, and cruelty-free formula."}
+                </p>
               </div>
               <div>
-                <h5 className="font-black text-[12px] uppercase tracking-widest mb-2 text-gray-900">THE LOWDOWN:</h5>
+                <h5 className="font-black text-[12px] uppercase tracking-widest mb-2 text-gray-900">
+                  THE LOWDOWN:
+                </h5>
                 <ul className="list-disc list-inside text-gray-600 space-y-2 ml-1">
                   <li>Helps improve the look of pores in just 1 week.</li>
                   <li>Brightens and evens skin tone.</li>
@@ -122,13 +192,25 @@ const ProductsDetails = () => {
           {/* Action Bar */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-6">
             <div className="flex items-center border border-gray-300 rounded-sm overflow-hidden h-[50px] sm:h-[56px] bg-white flex-shrink-0">
-              <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50">-</button>
-              <span className="w-10 text-center font-bold text-lg">{quantity}</span>
-              <button onClick={() => setQuantity(q => q + 1)} className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50">+</button>
+              <button
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50"
+              >
+                -
+              </button>
+              <span className="w-10 text-center font-bold text-lg">
+                {quantity}
+              </span>
+              <button
+                onClick={() => setQuantity((q) => q + 1)}
+                className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50"
+              >
+                +
+              </button>
             </div>
 
             <button
-              onClick={() => alert(`${product.name} added to cart!`)}
+              onClick={handleDirectCheckout}
               className="flex-1 bg-black text-white h-[50px] sm:h-[56px] rounded-sm font-bold hover:bg-[#222] transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
             >
               Add to Cart <span className="text-xl">→</span>

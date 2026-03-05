@@ -5,20 +5,20 @@ import logo from '../../assets/img/logo.png'
 import { AuthContext } from '../../contexts/AuthContext'
 
 const navLinks = [
-  { name: 'Skincare', to: '/skincare', hasDropdown: true },
-  { name: 'Collections', to: '/collections', hasDropdown: true },
+  { name: 'Skincare', to: '/#', hasDropdown: true },
+  { name: 'Collections', to: '/#', hasDropdown: true },
   { name: 'About', to: '/about', hasDropdown: false },
-  { name: 'Contact', to: '/contact', hasDropdown: false },
+  { name: 'Contact', to: '/#', hasDropdown: false },
 ]
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
-  const { user, logout } = useContext(AuthContext) // AuthContext থেকে ডাটা নিচ্ছি
+  const { user, logout } = useContext(AuthContext) 
   const userMenuRef = useRef(null)
   const navigate = useNavigate()
 
-  // ড্রপডাউন এর বাইরে ক্লিক করলে বন্ধ হবে
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
@@ -30,7 +30,7 @@ export default function Navbar() {
   }, [])
 
   const handleLogout = () => {
-    logout() // AuthProvider এর logout ফাংশন
+    logout() 
     setShowUserMenu(false)
     navigate('/')
   }
@@ -96,11 +96,8 @@ export default function Navbar() {
                         <p className="text-sm font-bold text-slate-900 truncate">{user.email}</p>
                       </div>
                       <div className="px-2 space-y-1">
-                        <Link to="/profile" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-medium">
+                        <Link to="#" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-medium">
                           <Settings className="w-4 h-4" /> My Account
-                        </Link>
-                        <Link to="/orders" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-medium">
-                          <Package className="w-4 h-4" /> Order History
                         </Link>
                         <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 rounded-sm font-bold mt-2 border-t border-slate-50">
                           <LogOut className="w-4 h-4" /> Log Out
@@ -112,10 +109,13 @@ export default function Navbar() {
               )}
             </div>
 
+              <Link to="/orders">
             <button className="relative p-2.5 hover:bg-slate-50 rounded-full text-slate-700 transition-colors">
-              <ShoppingBag className="w-[20px] h-[20px]" />
+                <ShoppingBag className="w-[20px] h-[20px]" />
+              
               <span className="absolute top-1.5 right-1.5 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black">0</span>
             </button>
+              </Link>
           </div>
         </div>
       </nav>

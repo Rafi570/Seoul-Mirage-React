@@ -5,6 +5,9 @@ import About from "../components/About";
 import ProductsDetails from "../pages/ProductsDetails";
 import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
+import OrderHistory from "../pages/OrderHistory";
+import PrivateRoute from "./PrivateRoute";
+import ProcessPay from "../pages/ProcessPay";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path:"/register",
         Component: Register
+      },
+      {
+        path:"/orders",
+        element: <PrivateRoute><OrderHistory></OrderHistory></PrivateRoute>
+      },
+      {
+        path: "process-pay",
+        element: <PrivateRoute><ProcessPay></ProcessPay></PrivateRoute>
       }
     ],
   },
