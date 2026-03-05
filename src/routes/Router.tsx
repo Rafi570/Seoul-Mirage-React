@@ -3,6 +3,8 @@ import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home/Home";
 import About from "../components/About";
 import ProductsDetails from "../pages/ProductsDetails";
+import Register from "../pages/Auth/Register";
+import Login from "../pages/Auth/Login";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +22,14 @@ export const router = createBrowserRouter([
         path: "/product/:id",
         Component: ProductsDetails,
       },
+      {
+        path:"/login",
+        Component: Login
+      },
+      {
+        path:"/register",
+        Component: Register
+      }
     ],
   },
 ]);
