@@ -1,1 +1,55 @@
 @import "tailwindcss";
+@layer components {
+
+  /* ---------------- Philosophy Section ---------------- */
+  .philosophy-title {
+    @apply text-[28px] md:text-[36px] lg:text-[42px] font-bold text-slate-900 leading-tight mb-6;
+  }
+
+  .philosophy-desc {
+    @apply text-[14px] md:text-[16px] text-slate-600 leading-relaxed mb-6;
+  }
+
+  /* ---------------- Newsletter Section ---------------- */
+  .newsletter-title {
+    @apply text-[28px] md:text-[36px] font-bold text-slate-900 mb-4 text-center;
+  }
+
+  .newsletter-desc {
+    @apply text-[14px] md:text-[16px] text-slate-500 text-center max-w-[600px] mx-auto mb-8;
+  }
+
+  /* ---------------- Generic Section ---------------- */
+  .section-title {
+    @apply text-[32px] md:text-[40px] lg:text-[48px] font-bold text-slate-900 leading-tight tracking-tight text-center;
+  }
+
+  .section-desc {
+    @apply text-[14px] md:text-[16px] text-slate-500 font-medium text-center max-w-[600px] mx-auto;
+  }
+
+  /* ---------------- Testimonial Section ---------------- */
+  .testimonial-text {
+    @apply text-[16px] md:text-[18px] text-slate-700 italic leading-relaxed;
+  }
+
+  /* ---------------- Story Section ---------------- */
+  .story-title {
+    @apply text-[32px] md:text-[44px] font-bold text-slate-900 leading-[1.1] mb-6;
+  }
+
+  .story-para {
+    @apply text-[15px] md:text-[16px] text-slate-600 leading-[1.6] mb-4;
+  }
+
+
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
