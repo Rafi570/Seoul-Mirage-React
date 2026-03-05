@@ -1,17 +1,16 @@
-import React from 'react'
+import React from "react";
 
 export default function JoinCom() {
   return (
     <section className="py-20 bg-white border-t border-slate-50">
-      
       {/* ✅ inline standard container */}
       <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
-
           {/* Text Content */}
           <h2 className="newsletter-title">Join Our Community</h2>
           <p className="newsletter-desc">
-            Subscribe to our newsletter for exclusive offers, skincare tips, and new product announcements.
+            Subscribe to our newsletter for exclusive offers, skincare tips, and
+            new product announcements.
           </p>
 
           {/* Subscription Form */}
@@ -34,9 +33,8 @@ export default function JoinCom() {
               Subscribe
             </button>
           </div>
-
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -6,9 +6,9 @@ import { AuthContext } from '../../contexts/AuthContext'
 
 const navLinks = [
   { name: 'Skincare', to: '/#', hasDropdown: true },
-  { name: 'Collections', to: '/#', hasDropdown: true },
+  { name: 'Collections', to: '/collections', hasDropdown: true },
   { name: 'About', to: '/about', hasDropdown: false },
-  { name: 'Contact', to: '/#', hasDropdown: false },
+  { name: 'Contact', to: '/contact', hasDropdown: false },
 ]
 
 export default function Navbar() {

@@ -8,6 +8,8 @@ import Login from "../pages/Auth/Login";
 import OrderHistory from "../pages/OrderHistory";
 import PrivateRoute from "./PrivateRoute";
 import ProcessPay from "../pages/ProcessPay";
+import Contact from "../pages/Contact";
+import Collections from "../pages/Collections";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
       {
         path:"/login",
         Component: Login
+      },
+      {
+        path: "/collections",
+        Component: Collections
+      },
+      {
+        path: "contact",
+        Component:Contact
       },
       {
         path:"/register",
