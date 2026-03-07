@@ -16,6 +16,9 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import Products from "../pages/Dashboard/Products";
 import Customers from "../pages/Dashboard/Customers";
+import Orders from "../pages/Dashboard/Orders";
+import Settings from "../pages/Dashboard/Settings";
+import UserSettings from "../pages/userSettings";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -54,6 +57,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PaymentSucsses></PaymentSucsses>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <PrivateRoute>
+            <UserSettings></UserSettings>
           </PrivateRoute>
         ),
       },
@@ -102,6 +113,14 @@ export const router = createBrowserRouter([
       {
         path: "customers",
         Component:Customers
+      },
+      {
+        path: "orders",
+        Component:Orders
+      },
+      {
+        path: "settings",
+        Component: Settings
       }
     ],
   },

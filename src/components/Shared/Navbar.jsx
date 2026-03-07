@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Search, User, ShoppingBag, ChevronDown, Menu, X, LogOut, Settings, Package } from 'lucide-react'
+import { Search, User, ShoppingBag, ChevronDown, Menu, X, LogOut, Settings, LayoutDashboard } from 'lucide-react'
 import logo from '../../assets/img/logo.png'
 import { AuthContext } from '../../contexts/AuthContext'
+import axios from 'axios'
 
 const navLinks = [
   { name: 'Skincare', to: '/#', hasDropdown: true },
@@ -14,10 +15,28 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [userRole, setUserRole] = useState(null)
   const { user, logout } = useContext(AuthContext) 
   const userMenuRef = useRef(null)
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user?.email) {
+        try {
+          const res = await axios.get(`http://localhost:5001/api/auth/role?email=${user.email}`);
+          if (res.data.success) {
+            setUserRole(res.data.role);
+          }
+        } catch (err) {
+          setUserRole('user');
+        }
+      } else {
+        setUserRole(null);
+      }
+    };
+    fetchUserRole();
+  }, [user]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -32,6 +51,7 @@ export default function Navbar() {
   const handleLogout = () => {
     logout() 
     setShowUserMenu(false)
+    setUserRole(null)
     navigate('/')
   }
 
@@ -40,7 +60,6 @@ export default function Navbar() {
       <nav className="sticky top-0 z-[1000] w-full bg-white/95 backdrop-blur-sm border-b border-slate-100 font-sans">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 h-20 flex items-center justify-between">
           
-          {/* LEFT: Menu & Logo */}
           <div className="flex items-center gap-6">
             <button className="lg:hidden p-2 hover:bg-slate-50 rounded-full" onClick={() => setIsOpen(true)}>
               <Menu className="w-6 h-6 text-slate-700" />
@@ -66,13 +85,11 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* RIGHT: Actions */}
           <div className="flex items-center gap-2 md:gap-5">
             <button className="p-2.5 hover:bg-slate-50 rounded-full text-slate-700 transition-colors">
               <Search className="w-[20px] h-[20px]" />
             </button>
 
-            {/* User Dropdown */}
             <div className="relative" ref={userMenuRef}>
               <button 
                 onClick={() => setShowUserMenu(!showUserMenu)}
@@ -96,8 +113,13 @@ export default function Navbar() {
                         <p className="text-sm font-bold text-slate-900 truncate">{user.email}</p>
                       </div>
                       <div className="px-2 space-y-1">
-                        <Link to="#" className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-medium">
-                          <Settings className="w-4 h-4" /> My Account
+                        {userRole === 'admin' && (
+                          <Link to="/dashboard" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-semibold">
+                            <LayoutDashboard className="w-4 h-4 text-[#CCAF91]" /> Dashboard
+                          </Link>
+                        )}
+                        <Link to="/settings" onClick={() => setShowUserMenu(false)} className="flex items-center gap-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-sm font-medium">
+                          <Settings className="w-4 h-4" /> Settings
                         </Link>
                         <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 rounded-sm font-bold mt-2 border-t border-slate-50">
                           <LogOut className="w-4 h-4" /> Log Out
@@ -109,18 +131,16 @@ export default function Navbar() {
               )}
             </div>
 
-              <Link to="/orders">
-            <button className="relative p-2.5 hover:bg-slate-50 rounded-full text-slate-700 transition-colors">
+            <Link to="/orders">
+              {/* ইখান থেকে ব্যাজ (0) সরানো হয়েছে */}
+              <button className="p-2.5 hover:bg-slate-50 rounded-full text-slate-700 transition-colors">
                 <ShoppingBag className="w-[20px] h-[20px]" />
-              
-              <span className="absolute top-1.5 right-1.5 bg-black text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black">0</span>
-            </button>
-              </Link>
+              </button>
+            </Link>
           </div>
         </div>
       </nav>
 
-      {/* MOBILE SIDEBAR */}
       <div className={`fixed inset-0 z-[9999] transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={() => setIsOpen(false)} />
         <div className={`absolute left-0 top-0 bg-white w-[300px] h-full shadow-2xl p-8 transition-transform duration-500 ease-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -135,6 +155,11 @@ export default function Navbar() {
                 {link.hasDropdown && <ChevronDown className="w-5 h-5 group-hover:rotate-180 transition-transform" />}
               </Link>
             ))}
+            {userRole === 'admin' && (
+              <Link to="/dashboard" onClick={() => setIsOpen(false)} className="text-xl font-bold text-[#CCAF91] border-b border-slate-50 pb-3">
+                Dashboard
+              </Link>
+            )}
           </div>
         </div>
       </div>
