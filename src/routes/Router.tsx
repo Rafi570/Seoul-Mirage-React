@@ -10,6 +10,8 @@ import PrivateRoute from "./PrivateRoute";
 import ProcessPay from "../pages/ProcessPay";
 import Contact from "../pages/Contact";
 import Collections from "../pages/Collections";
+import PaymentSucsses from "../pages/PaymentSucsses";
+import PaymentFail from "../pages/PaymentFail";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +44,14 @@ export const router = createBrowserRouter([
       {
         path:"/register",
         Component: Register
+      },
+      {
+        path: "/orders/success",
+        element: <PaymentSucsses></PaymentSucsses>
+      },
+      {
+        path: '/orders/fail',
+        element:<PaymentFail></PaymentFail>
       },
       {
         path:"/orders",
