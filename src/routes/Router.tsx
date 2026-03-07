@@ -19,6 +19,7 @@ import Customers from "../pages/Dashboard/Customers";
 import Orders from "../pages/Dashboard/Orders";
 import Settings from "../pages/Dashboard/Settings";
 import UserSettings from "../pages/userSettings";
+import MyProfile from "../pages/MyProfile";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -67,6 +68,13 @@ export const router = createBrowserRouter([
             <UserSettings></UserSettings>
           </PrivateRoute>
         ),
+      }, {
+        path: "/my-profile",
+        element:
+          <PrivateRoute>
+
+            <MyProfile></MyProfile>
+          </PrivateRoute>
       },
       {
         path: "/orders/fail",
