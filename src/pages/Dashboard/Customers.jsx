@@ -22,7 +22,7 @@ const Customers = () => {
             if (!authLoading) {
                 if (currentUser?.email) {
                     try {
-                        const res = await axios.get(`http://localhost:5001/api/auth/role?email=${currentUser.email}`);
+                        const res = await axios.get(`https://seoul-sage.vercel.app/api/auth/role?email=${currentUser.email}`);
                         if (res.data.role === 'admin') {
                             setIsAdmin(true);
                         } else {
@@ -46,7 +46,7 @@ const Customers = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:5001/api/auth/users?search=${searchTerm}`);
+            const res = await axios.get(`https://seoul-sage.vercel.app/api/auth/users?search=${searchTerm}`);
             setUsers(res.data.users);
             setCurrentPage(1); // সার্চ করলে পেজিনেশন ১ এ রিসেট হবে
         } catch (error) {
@@ -78,7 +78,7 @@ const Customers = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.patch(`http://localhost:5001/api/auth/update-role/${id}`, { role: newRole });
+                    await axios.patch(`https://seoul-sage.vercel.app/api/auth/update-role/${id}`, { role: newRole });
                     setUsers(prev => prev.map(u => u._id === id ? { ...u, role: newRole } : u));
                     Swal.fire('Success', 'Role updated!', 'success');
                 } catch (err) {

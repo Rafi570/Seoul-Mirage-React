@@ -37,8 +37,8 @@ const DashboardHome = () => {
             try {
                 // আপনার দেওয়া রাউটগুলো থেকে ডাটা কল করা হচ্ছে
                 const [ordersRes, productsRes] = await Promise.all([
-                    axios.get('http://localhost:5001/api/orders/all'),
-                    axios.get('http://localhost:5001/api/products')
+                    axios.get('https://seoul-sage.vercel.app/api/orders/all'),
+                    axios.get('https://seoul-sage.vercel.app/api/products')
                 ]);
 
                 const orders = ordersRes.data || [];

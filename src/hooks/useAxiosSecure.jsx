@@ -6,7 +6,7 @@ import useAuth from './useAuth';
 // import useAuth from './useAuth';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5001/'
+    baseURL: 'https://seoul-sage.vercel.app/'
 })
 
 const useAxiosSecure = () => {

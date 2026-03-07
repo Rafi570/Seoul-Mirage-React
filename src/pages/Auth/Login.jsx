@@ -2,13 +2,14 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import useAxios from "../../hooks/useAxios";
 import { AuthContext } from "../../contexts/AuthContext";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxios from "../../hooks/useAxios";
+// import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const axios = useAxiosSecure();
+  const axios = useAxios();
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 

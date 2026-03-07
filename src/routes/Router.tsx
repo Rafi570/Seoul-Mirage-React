@@ -56,9 +56,9 @@ export const router = createBrowserRouter([
       {
         path: "/orders/success",
         element: (
-          <PrivateRoute>
+  
             <PaymentSucsses></PaymentSucsses>
-          </PrivateRoute>
+   
         ),
       },
       {
@@ -79,9 +79,9 @@ export const router = createBrowserRouter([
       {
         path: "/orders/fail",
         element: (
-          <PrivateRoute>
+      
             <PaymentFail></PaymentFail>
-          </PrivateRoute>
+  
         ),
       },
       {

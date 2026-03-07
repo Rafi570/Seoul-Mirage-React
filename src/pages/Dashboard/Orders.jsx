@@ -39,7 +39,7 @@ const Orders = () => {
         if (currentUser?.email) {
           try {
             const res = await axios.get(
-              `http://localhost:5001/api/auth/role?email=${currentUser.email}`,
+              `https://seoul-sage.vercel.app/api/auth/role?email=${currentUser.email}`,
             );
             if (res.data.role === "admin") {
               setIsAdmin(true);
@@ -63,7 +63,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5001/api/orders/all");
+      const res = await axios.get("https://seoul-sage.vercel.app/api/orders/all");
       setOrders(res.data || []);
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -88,7 +88,7 @@ const Orders = () => {
       if (result.isConfirmed) {
         try {
           await axios.patch(
-            `http://localhost:5001/api/orders/cancel/${orderId}`,
+            `https://seoul-sage.vercel.app/api/orders/cancel/${orderId}`,
             { role: "admin" },
           );
           setOrders((prev) =>
@@ -116,7 +116,7 @@ const Orders = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(
-            `http://localhost:5001/api/orders/delete/${orderId}`,
+            `https://seoul-sage.vercel.app/api/orders/delete/${orderId}`,
             { data: { role: "admin" } },
           );
           setOrders((prev) => prev.filter((o) => o._id !== orderId));

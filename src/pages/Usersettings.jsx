@@ -40,7 +40,7 @@ const UserSettings = () => {
     setLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5001/api/auth/change-password",
+        "https://seoul-sage.vercel.app/api/auth/change-password",
         {
           email: user?.email,
           oldPassword: formData.oldPassword,

@@ -27,7 +27,7 @@ const Products = () => {
             if (!authLoading) {
                 if (user?.email) {
                     try {
-                        const res = await axios.get(`http://localhost:5001/api/auth/role?email=${user.email}`);
+                        const res = await axios.get(`https://seoul-sage.vercel.app/api/auth/role?email=${user.email}`);
                         if (res.data.role === 'admin') {
                             setIsAdmin(true);
                         } else {
@@ -51,7 +51,7 @@ const Products = () => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5001/api/products');
+            const res = await axios.get('https://seoul-sage.vercel.app/api/products');
             setProducts(res.data);
         } catch (error) {
             console.error("Fetch Error:", error);
@@ -81,7 +81,7 @@ const Products = () => {
         };
 
         try {
-            const res = await axios.post('http://localhost:5001/api/products', productData);
+            const res = await axios.post('https://seoul-sage.vercel.app/api/products', productData);
             if (res.data) {
                 Swal.fire('Success', 'Product added to Seoul Mirage', 'success');
                 setIsPostModalOpen(false);
@@ -105,7 +105,7 @@ const Products = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`http://localhost:5001/api/products/${id}`);
+                    await axios.delete(`https://seoul-sage.vercel.app/api/products/${id}`);
                     setProducts(prev => prev.filter(p => p._id !== id));
                     Swal.fire('Deleted!', 'Product removed.', 'success');
                 } catch (err) {

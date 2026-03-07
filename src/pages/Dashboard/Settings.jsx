@@ -39,7 +39,7 @@ const Settings = () => {
         if (currentUser?.email) {
           try {
             const res = await axios.get(
-              `http://localhost:5001/api/auth/role?email=${currentUser.email}`,
+              `https://seoul-sage.vercel.app/api/auth/role?email=${currentUser.email}`,
             );
             if (res.data.role === "admin") {
               setIsAdmin(true);
@@ -80,7 +80,7 @@ const Settings = () => {
     setSubmitting(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5001/api/auth/change-password",
+        "https://seoul-sage.vercel.app/api/auth/change-password",
         {
           email: currentUser.email,
           oldPassword: passData.oldPassword,

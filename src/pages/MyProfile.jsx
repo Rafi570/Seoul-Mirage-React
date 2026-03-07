@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
-import { User as UserIcon, MapPin, Lock, Camera, Loader2 } from "lucide-react"; // এখানে ফিক্স করা হয়েছে
+import { User as UserIcon, MapPin, Lock, Camera, Loader2 } from "lucide-react"; 
 import Swal from "sweetalert2";
 import { Link } from "react-router";
 
@@ -44,7 +44,7 @@ const MyProfile = () => {
     e.preventDefault();
     setLoading({ ...loading, profile: true });
     try {
-      await axios.patch("http://localhost:5001/api/auth/update-profile", {
+      await axios.patch("https://seoul-sage.vercel.app/api/auth/update-profile", {
         email: user.email,
         name: profileData.name,
         phone: profileData.phone,
@@ -69,7 +69,7 @@ const MyProfile = () => {
     e.preventDefault();
     setLoading({ ...loading, address: true });
     try {
-      await axios.patch("http://localhost:5001/api/auth/update-profile", {
+      await axios.patch("https://seoul-sage.vercel.app/api/auth/update-profile", {
         email: user.email,
         address: addressData,
       });
@@ -96,7 +96,7 @@ const MyProfile = () => {
     }
     setLoading({ ...loading, pass: true });
     try {
-      await axios.patch("http://localhost:5001/api/auth/change-password", {
+      await axios.patch("https://seoul-sage.vercel.app/api/auth/change-password", {
         email: user.email,
         oldPassword: passData.oldPassword,
         newPassword: passData.newPassword,

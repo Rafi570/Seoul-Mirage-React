@@ -44,7 +44,7 @@ export default function Navbar() {
       if (user?.email) {
         try {
           const res = await axios.get(
-            `http://localhost:5001/api/auth/role?email=${user.email}`,
+            `https://seoul-sage.vercel.app/api/auth/role?email=${user.email}`,
           );
           if (res.data.success) setUserRole(res.data.role);
         } catch (err) {
@@ -63,7 +63,7 @@ export default function Navbar() {
         setIsSearching(true);
         try {
           const res = await axios.get(
-            `http://localhost:5001/api/products?q=${searchQuery}`,
+            `https://seoul-sage.vercel.app/api/products?q=${searchQuery}`,
           );
           const data = Array.isArray(res.data) ? res.data : res.data.data || [];
           setSearchResults(data);
