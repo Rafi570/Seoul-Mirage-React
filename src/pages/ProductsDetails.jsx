@@ -191,23 +191,7 @@ const ProductsDetails = () => {
 
           {/* Action Bar */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-6">
-            <div className="flex items-center border border-gray-300 rounded-sm overflow-hidden h-[50px] sm:h-[56px] bg-white flex-shrink-0">
-              <button
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50"
-              >
-                -
-              </button>
-              <span className="w-10 text-center font-bold text-lg">
-                {quantity}
-              </span>
-              <button
-                onClick={() => setQuantity((q) => q + 1)}
-                className="px-4 sm:px-6 text-2xl font-light hover:bg-gray-50"
-              >
-                +
-              </button>
-            </div>
+
 
             <button
               onClick={handleDirectCheckout}
