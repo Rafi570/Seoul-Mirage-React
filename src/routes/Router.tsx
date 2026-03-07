@@ -12,6 +12,10 @@ import Contact from "../pages/Contact";
 import Collections from "../pages/Collections";
 import PaymentSucsses from "../pages/PaymentSucsses";
 import PaymentFail from "../pages/PaymentFail";
+import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardHome from "../pages/Dashboard/DashboardHome";
+import Products from "../pages/Dashboard/Products";
+import Customers from "../pages/Dashboard/Customers";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -30,36 +34,74 @@ export const router = createBrowserRouter([
         Component: ProductsDetails,
       },
       {
-        path:"/login",
-        Component: Login
+        path: "/login",
+        Component: Login,
       },
       {
         path: "/collections",
-        Component: Collections
+        Component: Collections,
       },
       {
         path: "contact",
-        Component:Contact
+        Component: Contact,
       },
       {
-        path:"/register",
-        Component: Register
+        path: "/register",
+        Component: Register,
       },
       {
         path: "/orders/success",
-        element: <PaymentSucsses></PaymentSucsses>
+        element: (
+          <PrivateRoute>
+            <PaymentSucsses></PaymentSucsses>
+          </PrivateRoute>
+        ),
       },
       {
-        path: '/orders/fail',
-        element:<PaymentFail></PaymentFail>
+        path: "/orders/fail",
+        element: (
+          <PrivateRoute>
+            <PaymentFail></PaymentFail>
+          </PrivateRoute>
+        ),
       },
       {
-        path:"/orders",
-        element: <PrivateRoute><OrderHistory></OrderHistory></PrivateRoute>
+        path: "/orders",
+        element: (
+          <PrivateRoute>
+            <OrderHistory></OrderHistory>
+          </PrivateRoute>
+        ),
       },
       {
         path: "process-pay",
-        element: <PrivateRoute><ProcessPay></ProcessPay></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <ProcessPay></ProcessPay>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: DashboardHome
+      },
+      {
+        path: "products",
+        Component: Products
+      },
+      {
+        path: "customers",
+        Component:Customers
       }
     ],
   },

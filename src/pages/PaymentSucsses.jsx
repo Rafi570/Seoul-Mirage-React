@@ -23,7 +23,7 @@ const PaymentSuccess = () => {
 
                 {/* Action Button */}
                 <Link 
-                    to="/all-products" 
+                    to="/collections" 
                     className="inline-flex items-center gap-2 bg-black text-white px-10 py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-gray-800 transition-all shadow-md"
                 >
                     Continue Shopping ❯
